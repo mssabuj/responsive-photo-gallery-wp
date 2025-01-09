@@ -29,14 +29,12 @@
 	    wp_enqueue_style( 'lightGallery-main-css', plugin_dir_url( __FILE__ ) . 'assets/css/lightGallery.css', array(), '1.0.0', 'all' );
 	    wp_enqueue_style( 'lightGallery-awesome-css', plugin_dir_url( __FILE__ ) . 'assets/css/font-awesome.css', array(), '1.0.0', 'all' );
 	    wp_enqueue_style( 'tps-gallery-main-css', plugin_dir_url( __FILE__ ) . 'assets/css/tps-photo-gallery.css', array(), '1.0.0', 'all' );
-
 		wp_enqueue_script('jquery');
 	    wp_enqueue_script( 'lightGallery-main-js', plugin_dir_url( __FILE__ ) . 'assets/js/lightGallery.js', array('jquery'), '1.0.0', true );
 		wp_enqueue_style('wp-color-picker');
 		wp_enqueue_script('tps-wp-color-picker', plugins_url(), array( 'wp-color-picker' ), false, true );
 	}
 	add_action( 'wp_enqueue_scripts', 'tp_custom_photo_gallery_script_enable' );
-
 
 	/**
 	 * Load plugin text domain for translations
@@ -45,7 +43,6 @@
 	    load_plugin_textdomain( 'tpcgallery', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 	add_action( 'plugins_loaded', 'basic_plugin_load_textdomain' );
-
 
 	/**
 	 * Enqueue the custom JavaScript and CSS for the TP Custom Photo Gallery.
