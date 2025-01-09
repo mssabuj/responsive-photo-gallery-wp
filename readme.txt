@@ -3,8 +3,8 @@ Contributors: themepoints
 Donate link: https://themepoints.com
 Tags:  gallery, grid gallery, photo gallery, image gallery, responsive image gallery ,custom photo gallery, responsive photo gallery, photo gallery WordPress, easy photo gallery,wp photo gallery, light photo gallery, Gallery Shortcode
 Requires at least: 4.0
-Tested up to: 6.6.2
-Stable tag: 1.6
+Tested up to: 6.7.1
+Stable tag: 1.7
 License: copyright@themepoints.com
 License URI: https://themepoints.com/copyright/
 
@@ -79,10 +79,6 @@ We are available for support in case you have any questions, problems or need an
 
 
 
-
-
-
-
 == Installation ==
 
 1. Install as regular WordPress plugin.<br />
@@ -103,6 +99,12 @@ After activate plugin you will see "Photo Gallery" menu at left side on WordPres
 
 
 == Changelog ==
+
+= 1.7 =
+* Added New Options.
+* Update Options Page.
+* Fix CSS Issue.
+* Fix Responsive issues.
 
 = 1.6 =
 * Added New Options.

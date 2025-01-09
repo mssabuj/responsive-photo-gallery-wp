@@ -8,6 +8,8 @@
 		$postid = $atts['id'];
 		
 		$tps_gallery_cat_name   		= get_post_meta($postid, 'tps_gallery_cat_name', true);
+		$tpsgallery_columns       		= get_post_meta($postid, 'tpsgallery_columns', true);
+		$tpsgallery_total_items       	= get_post_meta($postid, 'tpsgallery_total_items', true);
 		$tpsgallery_theme_id           	= get_post_meta($postid, 'tpsgallery_theme_id', true);
 		$tpsgallery_img_size           	= get_post_meta($postid, 'tpsgallery_img_size', true);
 		$tpsgallery_img_captions        = get_post_meta($postid, 'tpsgallery_img_captions', true);
@@ -17,14 +19,7 @@
 		$tpsgallery_caption_color_text	= get_post_meta($postid, 'tpsgallery_caption_color_text', true);
 		$tpsgallery_caption_font_size	= get_post_meta($postid, 'tpsgallery_caption_font_size', true);
 		$tpsgallery_caption_text_align	= get_post_meta($postid, 'tpsgallery_caption_text_align', true);
-		$tpsgallery_columns       		= get_post_meta($postid, 'tpsgallery_columns', true);
 		$tpsgallery_back_color       	= get_post_meta($postid, 'tpsgallery_back_color', true);
-
-		// Fallback to 'full' size if no size is selected
-		if ( ! $tpsgallery_img_size ) {
-		    $tpsgallery_img_size = 'full';
-		}
-		
 
 		if( !empty( $tps_gallery_cat_name ) ) {
 			$tps_gallerycat =  array();
@@ -35,7 +30,7 @@
 			$args = array(
 				'post_type' 	 	=> 'tp_photo_gallery',
 				'post_status'	 	=> 'publish',
-				'posts_per_page' 	=> -1,
+				'posts_per_page' 	=> $tpsgallery_total_items,
 				'tax_query' 	 	=> array(
 					array(
 						'taxonomy' 	=> 'tpgallerycat',
@@ -48,7 +43,7 @@
 			$args = array(
 				'post_type' 		=> 'tp_photo_gallery',
 				'post_status' 		=> 'publish',
-				'posts_per_page' 	=> -1,
+				'posts_per_page' 	=> $tpsgallery_total_items,
 			);
 		}
 		
@@ -70,12 +65,19 @@
 			}
 			.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> {
 				position: relative;
+				overflow: hidden;
 			}
-			
+			.tpsgallery-style-01-<?php echo esc_attr( $postid ); ?> .tpsgallery-thumbnail img {
+			    width: 100%;
+			    height: auto;
+			    object-fit: cover;
+			}
+			.tpsgallery-style-01-<?php echo esc_attr( $postid ); ?> .tpsgallery-thumbnail{
+			    line-height: 0;
+			}
 			<?php
 			if($tpsgallery_captions_style == 1){ ?>
-				<?php
-				if($tpsgallery_captions_positions == 1){ ?>
+				<?php if($tpsgallery_captions_positions == 1){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -87,9 +89,7 @@
 						display: block;
 						overflow: hidden;
 					}
-				<?php
-				}
-				elseif($tpsgallery_captions_positions == 2){ ?>
+				<?php } elseif($tpsgallery_captions_positions == 2){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -108,30 +108,26 @@
 						width: 100%;
 						top:0px;
 					}
-					<?php
-				}
-				elseif($tpsgallery_captions_positions == 3){ ?>
-				.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
-					background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
-					border: 0 none;
-					color: <?php echo esc_attr( $tpsgallery_caption_color_text ); ?>;
-					font-size: <?php echo esc_attr( $tpsgallery_caption_font_size ); ?>px;
-					text-align: <?php echo esc_attr( $tpsgallery_caption_text_align ); ?>;
-					height: 34px;
-					left: 0;
-					line-height: 20px;
-					margin: 0;
-					opacity: 1;
-					padding: 5px;
-					position: absolute;
-					text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.75);
-					transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
-					width: 100%;
-					margin-top:-34px;
-				}
-				<?php
-				}
-				elseif($tpsgallery_captions_positions == 4){ ?>
+				<?php }elseif($tpsgallery_captions_positions == 3){ ?>
+					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
+						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
+						border: 0 none;
+						color: <?php echo esc_attr( $tpsgallery_caption_color_text ); ?>;
+						font-size: <?php echo esc_attr( $tpsgallery_caption_font_size ); ?>px;
+						text-align: <?php echo esc_attr( $tpsgallery_caption_text_align ); ?>;
+						height: 34px;
+						left: 0;
+						line-height: 20px;
+						margin: 0;
+						opacity: 1;
+						padding: 5px;
+						position: absolute;
+						text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.75);
+						transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+						width: 100%;
+						margin-top:-34px;
+					}
+				<?php } elseif($tpsgallery_captions_positions == 4){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -153,10 +149,8 @@
 					}
 					<?php
 				}
-			}
-			elseif($tpsgallery_captions_style == 2){ ?>
-				<?php
-				if($tpsgallery_captions_positions == 1){?>
+			} elseif($tpsgallery_captions_style == 2){ ?>
+				<?php if($tpsgallery_captions_positions == 1){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -178,9 +172,7 @@
 						opacity:1;
 						margin-top:-34px;
 					}
-					<?php
-				}
-				if($tpsgallery_captions_positions == 2){?>
+				<?php } if($tpsgallery_captions_positions == 2){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -203,9 +195,7 @@
 						opacity:1;
 						top:0px;
 					}
-					<?php
-				}
-				if($tpsgallery_captions_positions == 3){?>
+				<?php } if($tpsgallery_captions_positions == 3){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -227,9 +217,7 @@
 						opacity:1;
 						margin-top:-34px;
 					}
-					<?php
-				}
-				if($tpsgallery_captions_positions == 4){?>
+				<?php } if($tpsgallery_captions_positions == 4){ ?>
 					.tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?> span {
 						background: <?php echo esc_attr( $tpsgallery_caption_color ); ?>;
 						border: 0 none;
@@ -253,8 +241,7 @@
 						top:50%;
 						margin-top:-24px;
 					}
-					<?php
-				}
+				<?php }
 			}
 			?>
 			</style>
@@ -272,15 +259,15 @@
 					?>
 					<div class="tpsgallery-col-lg-<?php echo esc_attr( $tpsgallery_columns ); ?> tpsgallery-col-md-2 tpsgallery-col-sm-2 tpsgallery-col-xs-1" data-src="<?php echo $featured_image; ?>">
 						<div class="tpsgallery-style-01-thumb-<?php echo esc_attr( $postid ); ?>">
-							<?php if ( has_post_thumbnail() ) { ?>
+							<?php if ( has_post_thumbnail() ) : ?>
 								<div class="tpsgallery-thumbnail">
 									<?php the_post_thumbnail( $tpsgallery_img_size ); ?>
 								</div>
-							<?php } ?>
+							<?php endif; ?>
 							<div class="tpsgallery-caption-area">
-								<?php if( $tpsgallery_img_captions == 1 ){ ?>
-									<span class="tps-gallery-captions"> <?php the_title();?> </span>
-								<?php } ?>
+								<?php if( $tpsgallery_img_captions == 1 ) : ?>
+									<span class="tps-gallery-captions"><?php the_title(); ?></span>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

@@ -48,7 +48,6 @@
 	}
 	add_action( 'init', 'tp_custom_photo_gallery_post_register', 0 );
 
-
 	/**
 	 * Register custom taxonomy for 'tp_photo_gallery' post type.
 	 */
@@ -66,7 +65,6 @@
 	        'new_item_name'     => __( 'New Category Name', 'tpcgallery' ),
 	        'menu_name'         => __( 'Categories', 'tpcgallery' ),
 	    );
-
 	    $args = array(
 	        'hierarchical'      => true,   // Hierarchical like categories.
 	        'labels'            => $labels, // Use custom labels for the taxonomy.
@@ -80,7 +78,6 @@
 	}
 	add_action( 'init', 'tp_custom_photo_gallery_taxonomies_register', 0 );
 
-
 	/**
 	 * Define custom columns for the 'tp_photo_gallery' post type.
 	 *
@@ -93,11 +90,11 @@
 
 	    // Define new columns
 	    $columns = array(
-	        "cb"                      => "<input type=\"checkbox\" />",  // Checkbox for bulk actions.
-	        "thumbnail"               => __( 'Image', 'tpcgallery' ),   // Thumbnail column.
-	        "title"                   => __( 'Name', 'tpcgallery' ),    // Post title.
-	        "tpcgallery_catcols_columns" => __( 'Categories', 'tpcgallery' ),  // Categories column.
-	        "date"                    => __( 'Date', 'tpcgallery' ),    // Date column.
+			"cb"                         => "<input type=\"checkbox\" />",  // Checkbox for bulk actions.
+			"thumbnail"                  => __( 'Image', 'tpcgallery' ),   // Thumbnail column.
+			"title"                      => __( 'Name', 'tpcgallery' ),    // Post title.
+			"tpcgallery_catcols_columns" => __( 'Categories', 'tpcgallery' ),  // Categories column.
+			"date"                       => __( 'Date', 'tpcgallery' ),    // Date column.
 	    );
 
 	    return $columns;
@@ -141,20 +138,17 @@
 	    }
 	}
 
-
 	# Add manage posts columns Filter 
 	add_filter("manage_tp_photo_gallery_posts_columns", "tpcgallery_post_columns");
 
 	# Add manage posts custom column Action
 	add_action("manage_tp_photo_gallery_posts_custom_column",  "tpcgallery_post_columns_display", 10, 2 );
 
-
 	# Add Option Page Generate Shortcode
 	function tpcgallery_shortcode_submenu_page(){
 		add_submenu_page('edit.php?post_type=tp_photo_gallery', __('Generate Shortcode', 'tpcgallery'), __('Generate Shortcode', 'tpcgallery'), 'manage_options', 'post-new.php?post_type=generategallery');
 	}
 	add_action('admin_menu', 'tpcgallery_shortcode_submenu_page');
-
 	
 	# Registering Post Type For Generate Shortcode
 	function tpcgallery_generate_shortcode_post_types() {
@@ -201,24 +195,22 @@
 
 	#
 	function tpcgallery_add_shortcode_column( $tpcgallerycolumns ) {
-	 return array_merge( $tpcgallerycolumns, 
-	  array(
+	 	return array_merge( $tpcgallerycolumns, 
+	  	array(
 	  		'shortcode' => __( 'Shortcode', 'tpcgallery' ),
 	  		'doshortcode' => __( 'Template Shortcode', 'tpcgallery' ) )
-	   );
+	   	);
 	}
 	add_filter( 'manage_generategallery_posts_columns' , 'tpcgallery_add_shortcode_column' );
 
 	#
 	function tpcgallery_add_shortcode_column_display( $tpcgallery_column, $post_id ) {
-		 if ( $tpcgallery_column == 'shortcode' ){
-		  ?>
+		if ( $tpcgallery_column == 'shortcode' ){ ?>
 		  <input style="background:#ddd" type="text" onClick="this.select();" value="[tps_gallery <?php echo 'id=&quot;'.$post_id.'&quot;';?>]" />
 		  <?php
 		}
-		if ( $tpcgallery_column == 'doshortcode' ){
-		?>
-		<textarea cols="40" rows="2" style="background:#ddd;" onClick="this.select();" ><?php echo '<?php echo do_shortcode("[tps_gallery id='; echo "'".$post_id."']"; echo '"); ?>'; ?></textarea>
+		if ( $tpcgallery_column == 'doshortcode' ){ ?>
+			<textarea cols="40" rows="2" style="background:#ddd;" onClick="this.select();" ><?php echo '<?php echo do_shortcode("[tps_gallery id='; echo "'".$post_id."']"; echo '"); ?>'; ?></textarea>
 		<?php
 		}
 	}
