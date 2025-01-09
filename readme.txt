@@ -19,7 +19,6 @@ The Photo Gallery plugin is an excellent solution for creating responsive image 
 * [Live demo!&raquo;](https://themepoints.com/photogallery)
 
 
-
 <strong>Plugin Features</strong><br />
 
 * Fully Responsive.
